@@ -10,19 +10,20 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-import java.io.IOException;
 
 
 @Controller
 @RequestMapping("/customer")
 @CrossOrigin
+
 public class UserController
 {
     @Autowired
     UserService userService;
 
-    @RequestMapping("/registers")
+
+
+  /*  @RequestMapping("/registers")
     public ModelAndView index ()
     {
         ModelAndView modelAndView = new ModelAndView();
@@ -44,24 +45,31 @@ public class UserController
         modelAndView.setViewName("/customer/electrocart.html");
         return modelAndView;
     }
-
+*/
 
 
 
     // Insert Rest Api Do Not Touch   http://localhost:9191/customer/register
     @PostMapping("/registeruser")
-    public String saveUser(@RequestBody User u) throws IOException
+    public  ResponseEntity<User> saveUser(@RequestBody User u)
     {
-        System.out.println("I am from contorller"+u);
-        User uobj = userService.saveUser(u);
+        User uobj = null;
+       try {
+             uobj = userService.saveUser(u);
+        }
+        catch(Exception e )
+        {
+            System.out.println("Exception"+e);
+        }
         if(uobj!=null)
         {
-           return "redirect:/customer/login";
+            return new ResponseEntity<>(uobj,HttpStatus.OK);
         }
         else
         {
-          return "redirect:/customer/registers";
+            return new ResponseEntity<>(uobj,HttpStatus.NOT_FOUND);
         }
+
     }
 
 
@@ -82,17 +90,17 @@ public class UserController
 
     // Validation Rest Api Do Not Touch   http://localhost:9191/customer/validatUser
     @PostMapping("/validatUser")
-    public String validate(@RequestBody User user)
+    public ResponseEntity<User> validate(@RequestBody User user)
     {
         System.out.println(user.getEmail()+" "+user.getPassword());
         User u = userService.validateUser(user.getEmail(),user.getPassword());
         if(u!=null)
         {
-            return "redirect:/customer/electrocart";
+            return new ResponseEntity<>(u,HttpStatus.OK);
         }
         else
         {
-            return "redirect:/customer/login";
+            return new ResponseEntity<>(u,HttpStatus.NOT_FOUND);
         }
     }
 
