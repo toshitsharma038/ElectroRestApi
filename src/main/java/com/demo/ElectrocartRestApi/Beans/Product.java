@@ -13,9 +13,9 @@ public class Product {
     private String pname;
     private String pdescription;
     private String pimage;
-    private String pprice;
+    private long pprice;
     private String pgstnumber;
-    private String pquantity;
+    private long pquantity;
 
     @ManyToOne
     @JoinColumn(name = "customerid")
@@ -25,10 +25,14 @@ public class Product {
     @JoinColumn(name="categoryid")
     private Category  category;
 
+    @ManyToOne
+    @JoinColumn(name="vendorid")
+    private Vendor vendorid;
+
     @OneToMany(mappedBy = "product")
     private  List<Product> product;
 
-    public Product(String pname, String pdescription, String pimage, String pprice, String pgstnumber, String pquantity)
+    public Product(String pname, String pdescription, String pimage, long pprice, String pgstnumber, long pquantity)
     {
         this.pname = pname;
         this.pdescription = pdescription;
@@ -65,12 +69,21 @@ public class Product {
         this.pimage = pimage;
     }
 
-    public String getPprice() {
+
+    public long getPprice() {
         return pprice;
     }
 
-    public void setPprice(String pprice) {
+    public void setPprice(long pprice) {
         this.pprice = pprice;
+    }
+
+    public long getPquantity() {
+        return pquantity;
+    }
+
+    public void setPquantity(long pquantity) {
+        this.pquantity = pquantity;
     }
 
     public String getPgstnumber() {
@@ -81,13 +94,9 @@ public class Product {
         this.pgstnumber = pgstnumber;
     }
 
-    public String getPquantity() {
-        return pquantity;
-    }
 
-    public void setPquantity(String pquantity) {
-        this.pquantity = pquantity;
-    }
+
+
 
     public Long getProductid() {
         return productid;

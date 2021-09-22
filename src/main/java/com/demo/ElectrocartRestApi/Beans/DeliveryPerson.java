@@ -12,22 +12,29 @@ public class DeliveryPerson
 
     private Long did;
     private String name;
-    private String contactnumber;
+    private long dcontactnumber;
     private String address;
     private String vehicletype;
 
-  @OneToMany(mappedBy = "deliveryPerson")
-  private List<DeliveryPerson> deliveryPerson;
 
-    @ManyToOne
+
+
+    @OneToMany(mappedBy = "deliveryPerson")
+    private List<DeliveryPerson> deliveryPerson;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="orderid")
     private  DeliveryPerson deliveryperson;
 
+    @ManyToOne
+    @JoinColumn(name="vendorid")
+    private DeliveryPerson deliverypersonsid;
 
-    public DeliveryPerson(String name, String contactnumber, String address, String vehicletype)
+
+    public DeliveryPerson(String name,long dcontactnumber, String address, String vehicletype)
     {
         this.name = name;
-        this.contactnumber = contactnumber;
+        this.dcontactnumber = dcontactnumber;
         this.address = address;
         this.vehicletype = vehicletype;
     }
@@ -37,7 +44,7 @@ public class DeliveryPerson
         return "DeliveryPerson{" +
                 "did=" + did +
                 ", name='" + name + '\'' +
-                ", contactnumber='" + contactnumber + '\'' +
+                ", contactnumber='" + dcontactnumber + '\'' +
                 ", address='" + address + '\'' +
                 ", vehicletype='" + vehicletype + '\'' +
                 '}';
@@ -54,12 +61,20 @@ public class DeliveryPerson
         this.name = name;
     }
 
-    public String getContactnumber() {
-        return contactnumber;
+    public long getDcontactnumber() {
+        return dcontactnumber;
     }
 
-    public void setContactnumber(String contactnumber) {
-        this.contactnumber = contactnumber;
+    public void setDcontactnumber(long dcontactnumber) {
+        this.dcontactnumber = dcontactnumber;
+    }
+
+    public String getVehicletype() {
+        return vehicletype;
+    }
+
+    public void setVehicletype(String vehicletype) {
+        this.vehicletype = vehicletype;
     }
 
     public String getAddress() {
@@ -70,13 +85,7 @@ public class DeliveryPerson
         this.address = address;
     }
 
-    public String getVehicletype() {
-        return vehicletype;
-    }
 
-    public void setVehicletype(String vehicletype) {
-        this.vehicletype = vehicletype;
-    }
 
     public Long getDid() {
         return did;

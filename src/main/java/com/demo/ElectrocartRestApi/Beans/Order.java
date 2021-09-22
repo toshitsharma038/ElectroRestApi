@@ -1,7 +1,10 @@
 package com.demo.ElectrocartRestApi.Beans;
 
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -11,14 +14,15 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int oid;
-    private String date;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date date;
     private String deliverystatus;
-    private String oquantity;
+    private long oquantity;
 
     @OneToMany(mappedBy = "deliveryperson")
     private List<DeliveryPerson> deliveryperson;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="customerid")
     private User user;
 
@@ -30,10 +34,20 @@ public class Order {
   @JoinColumn(name="deliverypersonid")
   private DeliveryPerson deliveryPerson;
 
-    public Order(String date, String deliverystatus, String oquantity) {
+    public Order(Date date, String deliverystatus,long oquantity) {
         this.date = date;
         this.deliverystatus = deliverystatus;
         this.oquantity = oquantity;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "oid=" + oid +
+                ", date=" + date +
+                ", deliverystatus='" + deliverystatus + '\'' +
+                ", oquantity='" + oquantity + '\'' +
+                '}';
     }
 
     public Order() {
@@ -47,11 +61,12 @@ public class Order {
         this.oid = oid;
     }
 
-    public String getDate() {
+
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -63,11 +78,11 @@ public class Order {
         this.deliverystatus = deliverystatus;
     }
 
-    public String getOquantity() {
+    public long getOquantity() {
         return oquantity;
     }
 
-    public void setOquantity(String oquantity) {
+    public void setOquantity(long oquantity) {
         this.oquantity = oquantity;
     }
 }

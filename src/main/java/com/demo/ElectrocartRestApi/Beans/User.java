@@ -17,13 +17,13 @@ public class User
     private String email;
 
     private String password;
-    private String contactnumber;
+    private long contactnumber;
     private String address;
 
     @OneToMany(mappedBy = "user")
     private List<Product> product;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Order> orders;
 
 
@@ -42,7 +42,7 @@ public class User
     public User() {
     }
 
-    public User(String name, String email, String password, String contactnumber, String address) {
+    public User(String name, String email, String password, long contactnumber, String address) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -82,11 +82,11 @@ public class User
         this.password = password;
     }
 
-    public String getContactnumber() {
+    public long getContactnumber() {
         return contactnumber;
     }
 
-    public void setContactnumber(String contactnumber) {
+    public void setContactnumber(long contactnumber) {
         this.contactnumber = contactnumber;
     }
 
